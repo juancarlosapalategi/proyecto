@@ -1,10 +1,15 @@
 from flask import render_template
+from .models import DBManager
 
 from . import app
 
 @app.route('/')
 def inicio():
-    return render_template('inicio.html')
+    db = DBManager('proyecto/balance/data/balance.db')
+    sql = 'SELECT * FROM movimientos'
+    movimientos = db.consultaSQL(sql)
+
+    return render_template('inicio.html', movs=movimientos)
 
 @app.route('/compra')
 def compra():
